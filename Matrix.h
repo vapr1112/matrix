@@ -13,7 +13,8 @@ public:
 
 	Matrix() : Matrix(nullptr, 3, 3){}
 
-	Matrix(const T** matrix_p, const int row_p, int col_p) : matrix{ new T * [row_p] }, row{ row_p }, col{ col_p }//главный конструктор
+	//главный конструктор
+	Matrix(const T** matrix_p, const int row_p, int col_p) : matrix{ new T * [row_p] }, row{ row_p }, col{ col_p }
 	{
 		matrix = new T* [row];
 
@@ -34,7 +35,8 @@ public:
 		}
 	}
 
-	Matrix(const Matrix& matrix_p) : matrix(new T* [matrix_p.row]), row{ matrix_p.row }, col{ matrix_p.col }//конструктор копировани€
+	//конструктор копировани€
+	Matrix(const Matrix& matrix_p) : matrix(new T* [matrix_p.row]), row{ matrix_p.row }, col{ matrix_p.col }
 	{
 		matrix = new T * [row];
 
@@ -97,7 +99,8 @@ public:
 		return row;
 	}
 
-	void print()//ввывод матрицы
+	//ввывод матрицы
+	void print()
 	{
 		cout << "\n ћатрица\n";
 		for (int i = 0; i < row; i++)
@@ -110,7 +113,8 @@ public:
 		}
 	}
 
-	void fill_random()//заполн€ет матрицу раномными числами
+	//заполн€ет матрицу раномными числами
+	void fill_random()
 	{
 		for (int i = 0; i < row; i++)
 		{
@@ -121,6 +125,43 @@ public:
 		}
 	}
 
+	//ищет максимальный элемент
+	void max()
+	{
+		T max_number = matrix[0][0];
+
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = 0; j < col; j++)
+			{
+				if (matrix[i][j] > max_number)
+				{
+					max_number = matrix[i][j];
+				}
+			}
+		}
+		cout << "\nмаксимальное число " << max_number;
+	}
+
+	//ищет минимальный элемент
+	void min()
+	{
+		T min_number = matrix[0][0];
+
+		for (int i = 0; i < row; i++)
+		{
+			for (int j = 0; j < col; j++)
+			{
+				if (matrix[i][j] < min_number)
+				{
+					min_number = matrix[i][j];
+				}
+			}
+		}
+		cout << "\nминимальное число " << min_number;
+	}
+
+	//перегрузка оператора >>
 	friend istream& operator>>(istream& cin_p, Matrix<T>& matrix_p)
 	{
 		for (int i = 0; i < matrix_p.row; i++)
