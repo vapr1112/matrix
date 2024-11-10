@@ -120,7 +120,7 @@ public:
 		{
 			for (int j = 0; j < col; j++)
 			{
-				matrix[i][j] = rand() % 25;
+				matrix[i][j] = rand() % 10 + 1;
 			}
 		}
 	}
@@ -172,6 +172,107 @@ public:
 			}
 		}
 		return cin_p;
+	}
+
+	//перегрузки математических операторов
+	const Matrix& operator=(const Matrix& matrix_p)
+	{
+		if (&matrix_p != this)
+		{
+			for (int i = 0; i < row; i++)
+			{
+				delete[] matrix[i];
+			}
+
+			delete[] matrix;
+
+			matrix = new T * [row];
+
+			for (int i = 0; i < row; i++)
+			{
+				matrix[i] = new T[col];
+			}
+
+			for (int i = 0; i < row; i++)
+			{
+				for (int j = 0; j < col; j++)
+				{
+					matrix[i][j] = matrix_p.matrix[i][j];
+				}
+			}
+		}
+
+		return *this;
+	}
+
+
+	friend const Matrix operator+(const Matrix<T>& matrix_1, const Matrix<T>& matrix_2)
+	{
+		Matrix matrx_buf;
+
+		for (int i = 0; i < matrix_1.row; i++)
+		{
+			for (int j = 0; j < matrix_1.col; j++)
+			{
+				matrx_buf.matrix[i][j] = matrix_1.matrix[i][j] + matrix_2.matrix[i][j];
+			}
+		}
+
+		return matrx_buf;
+	}
+
+	friend const Matrix operator-(const Matrix<T>& matrix_1, const Matrix<T>& matrix_2)
+	{
+		Matrix matrx_buf;
+
+		for (int i = 0; i < matrix_1.row; i++)
+		{
+			for (int j = 0; j < matrix_1.col; j++)
+			{
+				matrx_buf.matrix[i][j] = matrix_1.matrix[i][j] - matrix_2.matrix[i][j];
+			}
+		}
+
+		return matrx_buf;
+	}
+
+	friend const Matrix operator*(const Matrix<T>& matrix_1, const Matrix<T>& matrix_2)
+	{
+		Matrix matrx_buf;
+
+		for (int i = 0; i < matrix_1.row; i++)
+		{
+			for (int j = 0; j < matrix_1.col; j++)
+			{
+				for (int k = j; k < matrix_1.col; k++)
+				{
+					if (k == j)
+					{
+						matrx_buf.matrix[i][j] = matrix_1.matrix[i][k] * matrix_2.matrix[k][i];
+					}
+					else
+					{
+						matrx_buf.matrix[i][j] += matrix_1.matrix[i][k] * matrix_2.matrix[k][i];
+					}
+				}
+			}
+		}
+		return matrx_buf;
+	}
+
+	friend const Matrix operator/(const Matrix<T>& matrix_1, const Matrix<T>& matrix_2)
+	{
+		Matrix matrx_buf;
+
+		for (int i = 0; i < matrix_1.row; i++)
+		{
+			for (int j = 0; j < matrix_1.col; j++)
+			{
+				matrx_buf.matrix[i][j] = matrix_1.matrix[i][j] * (matrix_2.matrix[i][j] / (matrix_2.matrix[i][j] * matrix_2.matrix[i][j]));
+			}
+		}
+
+		return matrx_buf;
 	}
 
 	~Matrix()
